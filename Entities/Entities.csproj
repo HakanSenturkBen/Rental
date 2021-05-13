@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Abstract\**" />
+    <EmbeddedResource Remove="Abstract\**" />
+    <None Remove="Abstract\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Concrete\CarImage.cs~RF3e4b1af.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>
