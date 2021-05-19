@@ -14,7 +14,9 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, RentalContext>, ICarDal
     {
-        public List<CarDto> GetCarList(Ordered choose)
+
+
+        public List<CarDto> GetCarList()
         {
             using (RentalContext contex = new RentalContext())
             {
@@ -35,7 +37,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<CarDto> GetCarList()
+        public List<CarDto> GetCarsByBrand(int brandId)
         {
             using (RentalContext contex = new RentalContext())
             {
@@ -44,6 +46,7 @@ namespace DataAccess.Concrete.EntityFramework
                              on car.BrandId equals brand.Id
                              join color in contex.Colors
                              on car.ColorId equals color.Id
+                             where car.BrandId == brandId
                              select new CarDto
                              {
                                  CarId = car.Id,
@@ -53,6 +56,49 @@ namespace DataAccess.Concrete.EntityFramework
                                  ModelYear = car.ModelYear
                              };
                 return result.OrderBy(x => x.BrandName).ToList();
+            }
+        }
+        public List<CarDto> GetCarsByColor(int colorId)
+        {
+            using (RentalContext contex = new RentalContext())
+            {
+                var result = from car in contex.Cars
+                             join brand in contex.Brands
+                             on car.BrandId equals brand.Id
+                             join color in contex.Colors
+                             on car.ColorId equals color.Id
+                             where car.ColorId == colorId
+                             select new CarDto
+                             {
+                                 CarId = car.Id,
+                                 BrandName = brand.BrandName,
+                                 ColorName = color.ColorName,
+                                 DailyPrice = car.DailyPrice,
+                                 ModelYear = car.ModelYear
+                             };
+                return result.OrderBy(x => x.BrandName).ToList();
+            }
+        }
+
+        public CarDto GetCarById(int Id)
+        {
+            using (RentalContext contex = new RentalContext())
+            {
+                var result = from car in contex.Cars
+                             join brand in contex.Brands
+                             on car.BrandId equals brand.Id
+                             join color in contex.Colors
+                             on car.ColorId equals color.Id
+                             where car.Id == Id
+                             select new CarDto
+                             {
+                                 CarId = car.Id,
+                                 BrandName = brand.BrandName,
+                                 ColorName = color.ColorName,
+                                 DailyPrice = car.DailyPrice,
+                                 ModelYear = car.ModelYear
+                             };
+                return result.SingleOrDefault();
             }
         }
     }

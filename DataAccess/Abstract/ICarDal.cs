@@ -9,9 +9,11 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarDal:IEntityRepository<Car>
+    public interface ICarDal : IEntityRepository<Car>
     {
         List<CarDto> GetCarList();
-        List<CarDto> GetCarList(Ordered choose); 
+        List<CarDto> GetCarsByBrand(int brandId);
+        List<CarDto> GetCarsByColor(int colorId);
+        CarDto GetCarById(int Id);
     }
 }
