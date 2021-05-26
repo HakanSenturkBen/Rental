@@ -9,7 +9,7 @@ namespace Business.Abstract
     {
         IDataResult<List<Rental>> GetAll();
         IDataResult<Rental> GetByCarId(int Id);
-        IDataResult<List<RentalDto>> GetRentalsDto();
+        IDataResult<List<RentalDto>> GetRentalsDto(int carId);
         IResult Add(Rental rental);
         IResult Update(Rental rental);
         IResult Delete(Rental rental);

@@ -1,5 +1,6 @@
 ﻿
 using Core.Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -24,5 +25,7 @@ namespace Business.Constants
         public static string SuccessfulLogin = " giriş başarılı";
         public static string UserAlreadyExists = " bu kullanıcı kayıtlı. Parolanızı mı unuttunuz?";
         public static string AccessTokenCreated = " kullanıcı erişimi açıldı";
+        public static string rented = "kiralandı";
+        public static string avaible = "uygun";
     }
 }

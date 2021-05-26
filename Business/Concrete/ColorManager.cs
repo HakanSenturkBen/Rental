@@ -44,6 +44,5 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
     }
-
 }
 

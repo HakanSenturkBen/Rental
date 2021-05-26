@@ -12,4 +12,5 @@ namespace Entities.Concrete
         public string Password { get; set; }
         public string CitizenShipNumber { get; set; }
     }
+
 }

@@ -4,6 +4,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using System;
 using System.Collections.Generic;
 
 namespace Business.Concrete
@@ -19,13 +20,11 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            var result = GetByCarId(rental.CarId);
-            if (result.Data == null || rental.ReturnDate != null)
-            {
-                rentalDal.Add(rental);
-                return new SuccessResult(Messages.Added);
-            }
-            return new ErrorResult(Messages.Added);
+
+            rentalDal.Add(rental);
+            return new SuccessResult(rental.Id.ToString());
+
+
         }
 
         public IResult Delete(Rental rental)
@@ -44,9 +43,15 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(rentalDal.Get(x => x.CarId == Id));
         }
 
-        public IDataResult<List<RentalDto>> GetRentalsDto()
+        public IDataResult<List<RentalDto>> GetRentalsDto(int carId)
         {
-            return new SuccessDataResult<List<RentalDto>>(rentalDal.GetRentalsDto());
+            var result = new SuccessDataResult<List<RentalDto>>(rentalDal.GetRentalsDto(carId));
+            if (result.Data.Count > 0)
+                if (DateTime.Compare(result.Data[0].ReturnDate, DateTime.Now) > 0 || DateTime.Compare(result.Data[0].ReturnDate, DateTime.Now) == 0)
+                {
+                    return new ErrorDataResult<List<RentalDto>>(Messages.rented);
+                }
+            return new SuccessDataResult<List<RentalDto>>(result.Data, Messages.avaible);
         }
 
         public IResult Update(Rental rental)
