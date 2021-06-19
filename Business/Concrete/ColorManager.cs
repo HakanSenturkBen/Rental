@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Business.Concrete
 {
@@ -18,8 +21,23 @@ namespace Business.Concrete
 
         public IResult Add(Color color)
         {
+            IResult result = BusinessRules.Run(CheckIfColorNameExists(color.ColorName));
+            if (result != null)
+            {
+                return result;
+            }
             colorDal.Add(color);
             return new SuccessResult(Messages.Added);
+        }
+
+        private IResult CheckIfColorNameExists(string colorName)
+        {
+            var result = colorDal.GetAll(x => x.ColorName == colorName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.NameAlreadyExists);
+            }
+            return new SuccessResult();
         }
 
         public IResult Delete(Color color)

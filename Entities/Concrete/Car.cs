@@ -11,7 +11,7 @@ namespace Entities.Concrete
         public string ModelYear { get; set; }
         public int DailyPrice { get; set; }
         public string Description { get; set; }
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
         public bool Active { get; set; }
 
         public override string ToString() => $"id:{Id} brandId: {BrandId} ColorId: {ColorId} Model year: {ModelYear} Daily price: {DailyPrice} {Description} {CreateDate}";

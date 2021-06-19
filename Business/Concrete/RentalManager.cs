@@ -49,7 +49,7 @@ namespace Business.Concrete
             if (result.Data.Count > 0)
                 if (DateTime.Compare(result.Data[0].ReturnDate, DateTime.Now) > 0 || DateTime.Compare(result.Data[0].ReturnDate, DateTime.Now) == 0)
                 {
-                    return new ErrorDataResult<List<RentalDto>>(Messages.rented);
+                    return new ErrorDataResult<List<RentalDto>>("Araç " + result.Data[0].ReturnDate.ToShortDateString() + " tarihine kadar  başka bir üyemize kiralanmıştır.");
                 }
             return new SuccessDataResult<List<RentalDto>>(result.Data, Messages.avaible);
         }

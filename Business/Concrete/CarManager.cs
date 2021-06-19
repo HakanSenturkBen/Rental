@@ -25,6 +25,13 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Added);
         }
 
+        public IResult Del(int carId)
+        {
+            Car car = carDal.Get(x => x.Id == carId);
+            carDal.Delete(car);
+            return new SuccessResult(Messages.Deleted);
+        }
+
         public IResult Delete(Car car)
         {
             carDal.Delete(car);
@@ -49,6 +56,11 @@ namespace Business.Concrete
         public IDataResult<CarDto> GetCarById(int carId)
         {
             return new SuccessDataResult<CarDto>(carDal.GetCarById(carId));
+        }
+
+        public IDataResult<Car> GetCarId(int carId)
+        {
+            return new SuccessDataResult<Car>(carDal.Get(x => x.Id == carId));
         }
 
         public IDataResult<List<CarDto>> GetCarInfo()

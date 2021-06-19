@@ -43,10 +43,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpDelete("delete")]
-        public IActionResult Delete(Car car)
+        [HttpPost("del")]
+        public IActionResult Del(int carId)
         {
-            var result = carService.Delete(car);
+            var result = carService.Del(carId);
             if (result.Success)
             {
                 return Ok(result);
@@ -98,11 +98,22 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
-    
-         [HttpGet("getcarinfo")]
+
+        [HttpGet("getcarinfo")]
         public IActionResult GetCarInfo()
         {
             var result = carService.GetCarInfo();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcarid")]
+        public IActionResult GetCarId(int carId)
+        {
+            var result = carService.GetCarId(carId);
             if (result.Success)
             {
                 return Ok(result);
