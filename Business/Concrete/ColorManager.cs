@@ -1,5 +1,8 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -19,6 +22,8 @@ namespace Business.Concrete
             colorDal = _colorDal;
         }
 
+        [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Add(Color color)
         {
             IResult result = BusinessRules.Run(CheckIfColorNameExists(color.ColorName));
@@ -55,9 +60,15 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<Color>(colorDal.Get(x => x.Id == colorId));
         }
-
+        [ValidationAspect(typeof(ColorValidator))]
+        [CacheRemoveAspect("IColorService.Get")]
         public IResult Update(Color color)
         {
+            IResult result = BusinessRules.Run(CheckIfColorNameExists(color.ColorName));
+            if (result != null)
+            {
+                return result;
+            }
             colorDal.Update(color);
             return new SuccessResult(Messages.Updated);
         }
