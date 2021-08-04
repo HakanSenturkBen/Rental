@@ -13,64 +13,15 @@ namespace Business.Concrete
     public class CustomerManager : ICustomerService
     {
         ICustomerDal customerDal;
-        IAddressDal addressDal;
-        ICompanyDal companyDal;
-        IAuthService authService;
-
         public CustomerManager(ICustomerDal _customerDal)
         {
             customerDal = _customerDal;
         }
 
-        public CustomerManager(ICustomerDal _customerDal, IAddressDal _address, ICompanyDal _company, IAuthService _authService)
+        public IResult Add(Customer customer)
         {
-            customerDal = _customerDal;
-            addressDal = _address;
-            companyDal = _company;
-            authService = _authService;
-
-        }
-
-        public IResult Add(CustomerDto customer)
-        {
-            UserForRegisterDto user = new UserForRegisterDto
-            {
-                Email = customer.Email,
-                FirstName = customer.Name,
-                LastName = customer.Name,
-                Password = customer.Password
-            };
-
-            var registerResult = authService.Register(user, user.Password);
-
-            Address address = new Address
-            {
-                Address1 = customer.Address,
-                Address2 = customer.Address,
-                City = customer.City,
-                State = customer.State
-            };
-            addressDal.Add(address);
-
-            Company company = new Company
-            {
-                AddressId = address.Id,
-                CompanyName = customer.CompanyName,
-                CoPhoneNumber = customer.CoPhoneNumber,
-                TaxNumber = customer.TaxNumber,
-                TaxOfficeName = customer.TaxOfficeName
-            };
-            companyDal.Add(company);
-            Customer _customer = new Customer
-            {
-                UserId = registerResult.Data.Id,
-                AddressId = address.Id,
-                CompanyId = company.Id,
-                CitizenShipNumber = customer.CitizenShipNumber,
-                PhoneNumber = customer.PhoneNumber,
-            };
-            customerDal.Add(_customer);
-            return new SuccessResult(Messages.Added);
+            customerDal.Add(customer);
+            return new SuccessResult(customer.Id.ToString());
         }
 
         public IResult Delete(Customer customer)
@@ -89,9 +40,19 @@ namespace Business.Concrete
             return new SuccessDataResult<Customer>(customerDal.Get(x => x.Id == CustomerId));
         }
 
+        public IDataResult<Customer> GetCustomerByUserId(int UserId)
+        {
+            return new SuccessDataResult<Customer>(customerDal.Get(x => x.UserId == UserId));
+        }
+
         public IDataResult<List<CustomerDto>> GetCustomerDtoAll()
         {
             return new SuccessDataResult<List<CustomerDto>>(customerDal.GetCustomerList());
+        }
+
+        public IDataResult<CustomerDto> GetCustomerDtoById(int customerId)
+        {
+            return new SuccessDataResult<CustomerDto>(customerDal.GetCustomerDto(customerId));
         }
 
         public IResult Update(Customer customer)

@@ -12,11 +12,11 @@ namespace Business.ValidationRules.FluentValidation
         {
             RuleFor(x => x.ColorName).MinimumLength(2);
             RuleFor(x => x.ColorName).MaximumLength(50);
-            RuleFor(x => x.ColorName).Must(StartWithA).WithMessage("Türkçe'de sözcükler Ğ harfi ile başlayamaz");
+            RuleFor(x => x.ColorName).Must(StartWithA).WithMessage("Türkçe'de sözcükler Ğ(ğ) harfi ile başlayamaz");
         }
         private bool StartWithA(string arg)
         {
-            if (arg.StartsWith("Ğ"))
+            if (arg.StartsWith("Ğ") || arg.StartsWith("ğ"))
             {
                 return false;
             }

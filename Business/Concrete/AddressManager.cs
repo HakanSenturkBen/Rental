@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 
@@ -12,19 +14,16 @@ namespace Business.Concrete
             addressDal = _addressDal;
         }
 
-        public void Add(Address address)
+        public IResult Add(Address address)
         {
             addressDal.Add(address);
+            return new SuccessResult(address.Id.ToString());
         }
 
-        public void Delete(Address address)
-        {
-            addressDal.Delete(address);
-        }
-
-        public void Update(Address address)
+        public IResult Update(Address address)
         {
             addressDal.Update(address);
+            return new SuccessResult(Messages.Updated);
         }
     }
 }

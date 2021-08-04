@@ -5,8 +5,8 @@ namespace Business.Abstract
 {
     public interface ICompanyService
     {
-        void Add(Company company);
-        void Update(Company company);
-        void Delete(Company company);
+        IResult Add(Company company);
+        IResult Update(Company company);
+        IResult Delete(Company company);
     }
 }

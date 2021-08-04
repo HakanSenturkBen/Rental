@@ -29,5 +29,6 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Rental> Rentals { get; set; }
         public DbSet<BankPayment> BankPayments { get; set; }
         public DbSet<CreditCard> CreditCard { get; set; }
+        public DbSet<CustomerFindex> CustomerFindexes { get; set; }
     }
 }

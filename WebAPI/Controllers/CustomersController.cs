@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(CustomerDto custom)
+        public IActionResult Add(Customer custom)
         {
             var result = customerService.Add(custom);
             if (result.Success)
@@ -69,6 +69,28 @@ namespace WebAPI.Controllers
         public IActionResult GetCustomerById(int id)
         {
             var result = customerService.GetCustomerById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcustomerbyUserid")]
+        public IActionResult GetCustomerByUserId(int userId)
+        {
+            var result = customerService.GetCustomerByUserId(userId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcustomerdtobyId")]
+        public IActionResult GetCustomerDtoById(int customerId)
+        {
+            var result = customerService.GetCustomerDtoById(customerId);
             if (result.Success)
             {
                 return Ok(result);

@@ -46,7 +46,10 @@ namespace Business.Concrete
             {
                 return result;
             }
-            result.Data.Add(new CarImage { Id = 0, CarId = CarId, ImagePath = "Default.jpg", Date = DateTime.Now });
+            for (int i = 0; i < 5; i++)
+            {
+                result.Data.Add(new CarImage { Id = 0, CarId = CarId, ImagePath = "https://i.ytimg.com/vi/n_d5G1HF-_U/maxresdefault.jpg", Date = DateTime.Now });
+            }
             return result;
 
 
